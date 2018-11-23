@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>3D全景之ThreeJs</title>
+    <title>3D全景之ThreeJs-立方体全景图</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta id="jdouview" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
@@ -59,15 +59,19 @@
 <script src="js/CSS3DRenderer.min.js"></script>
 <script src="js/DeviceOrientationControls.js"></script>
 <script>
-
-var camera, scene, renderer;
-var geometry, material, mesh;
-var target = new THREE.Vector3();
-
-var lon = 90, lat = 0;
-var phi = 0, theta = 0;
-
-var touchX, touchY;
+//定义相机，场景，渲染器，是3D场景形成的三大要素
+ var camera, scene, renderer;
+ //定义几何体，材质，以及几何体加材质之后形成的网格
+ var geometry, material, mesh;
+ //生成三维向量（0,0,0），相机的目标点
+ var target = new THREE.Vector3();
+ //lon 经度 竖着的 有东经 西经 ；lat 维度 横着的 有南纬 北纬
+ //该经纬表示相机的聚焦点，初始状态在前面
+ var lon = 90, lat = 0;
+ //同样是相机的聚焦点，上面是角度，此处转化为弧度制
+ var phi = 0, theta = 0;
+ //移动端用户输入的x，y 
+ var touchX, touchY;
 
 init();
 animate();
@@ -121,7 +125,7 @@ function init() {
         position: [0, 0, -tileWidth],
         rotation: [0, 0, 0]
     }];
-
+	//将六个图片添加到场景中
     for ( var i = 0; i < sides.length; i ++ ) {
         var side = sides[ i ];
         var element = document.getElementById("bg_section_"+i);
@@ -241,7 +245,7 @@ function animate() {
     // lon = Math.max(-180, Math.min(180, lon));//限制固定角度内旋转
     // lon += 0.1;//自动旋转
     lat = Math.max(-85, Math.min(85, lat)); //限制固定角度内旋转
-    phi = THREE.Math.degToRad(85 - lat);
+    phi = THREE.Math.degToRad(85 - lat);  //角度转为弧度制
     theta = THREE.Math.degToRad(lon+180);
     target.x = Math.sin(phi) * Math.cos(theta);
     target.y = Math.cos(phi);
